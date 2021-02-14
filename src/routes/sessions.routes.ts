@@ -9,18 +9,20 @@ sessionsRouter.post('/', async (request, response) => {
 
   const authenticateUser = new AuthenticateUserService();
 
-  const { user, token } = await authenticateUser.execute({ email, password });
+  const userFull = await authenticateUser.execute({ email, password });
 
-  const userWithoutPassword = {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    avatar: user.avatar,
-    create_at: user.create_at,
-    updated_at: user.updated_at,
+  const token = userFull.token;
+
+  const user = {
+    id: userFull.user.id,
+    name: userFull.user.name,
+    email: userFull.user.email,
+    avatar: userFull.user.avatar,
+    create_at: userFull.user.create_at,
+    updated_at: userFull.user.updated_at,
   };
 
-  return response.json({ userWithoutPassword, token });
+  return response.json({ user, token });
 });
 
 export default sessionsRouter;

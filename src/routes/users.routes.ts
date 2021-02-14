@@ -15,21 +15,21 @@ usersRouter.post('/', async (request, response) => {
 
   const createUser = new CreateUserService();
 
-  const user = await createUser.execute({
+  const userFull = await createUser.execute({
     name,
     email,
     password,
   });
 
-  const userWithoutPassword = {
-    id: user.id,
-    name: user.name,
-    email: user.email,
-    create_at: user.create_at,
-    updated_at: user.updated_at,
+  const user = {
+    id: userFull.id,
+    name: userFull.name,
+    email: userFull.email,
+    create_at: userFull.create_at,
+    updated_at: userFull.updated_at,
   };
 
-  return response.json(userWithoutPassword);
+  return response.json(user);
 });
 
 usersRouter.patch(
@@ -39,21 +39,21 @@ usersRouter.patch(
   async (request, response) => {
     const updateUserAvatar = new UpdateUserAvatarService();
 
-    const user = await updateUserAvatar.execute({
+    const userFull = await updateUserAvatar.execute({
       user_id: request.user.id,
       avatarFilename: request.file.filename,
     });
 
-    const userWithoutPassword = {
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      avatar: user.avatar,
-      create_at: user.create_at,
-      updated_at: user.updated_at,
+    const user = {
+      id: userFull.id,
+      name: userFull.name,
+      email: userFull.email,
+      avatar: userFull.avatar,
+      create_at: userFull.create_at,
+      updated_at: userFull.updated_at,
     };
 
-    return response.json(userWithoutPassword);
+    return response.json(user);
   },
 );
 
